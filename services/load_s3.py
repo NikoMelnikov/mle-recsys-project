@@ -11,6 +11,7 @@ access_key = os.getenv('AWS_ACCESS_KEY_ID')
 secret_key = os.getenv('AWS_SECRET_ACCESS_KEY')
 bucket_name = os.getenv('S3_BUCKET_NAME')
 
+
 # Определяем функцию для загрузки файла
 def upload_to_yandex_s3(file_name, object_name):
     # Создание сессии и клиента S3
@@ -19,7 +20,7 @@ def upload_to_yandex_s3(file_name, object_name):
         service_name='s3',
         aws_access_key_id=access_key,
         aws_secret_access_key=secret_key,
-        endpoint_url='https://storage.yandexcloud.net'  # URL для Yandex S3
+        endpoint_url='https://storage.yandexcloud.net'  
     )
 
     try:
