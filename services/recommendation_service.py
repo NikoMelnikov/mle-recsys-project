@@ -61,8 +61,9 @@ class Recommendations:
             recs = self._recs["default"]
             recs = recs["track_id"].to_list()[:k]
             self._stats["request_default_count"] += 1
-        except:  # noqa: E722
-            logger.error("No recommendations found")
+        except: 
+            logger.exception("An error occurred while fetching recommendations for user_id %s", user_id)
+            logger.warning("Отсутствуют рекомендации для пользователя %s", user_id)
             recs = []
 
         return recs
@@ -154,6 +155,7 @@ async def recommendations_online(user_id: int, k: int = 100):
     recs = dedup_ids(combined)
     recs = recs[:k]
     return {"recs": recs}
+    
 
 @app.post("/recommendations")
 async def recommendations(user_id: int, k: int = 100):

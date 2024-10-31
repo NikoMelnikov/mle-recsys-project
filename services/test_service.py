@@ -34,11 +34,11 @@ class TestGetRecommendations(unittest.TestCase):
                 return json.load(file)
         except FileNotFoundError:
             logging.error(f"File not found: {filename}")
-            self.fail(f"File not found: {filename}")
+            raise FileNotFoundError(f"File not found: {filename}")
         except json.JSONDecodeError:
             logging.error(f"Error decoding JSON from the file: {filename}")
-            self.fail(f"Error decoding JSON from the file: {filename}")
-            
+            raise json.JSONDecodeError(f"Error decoding JSON from the file: {filename}", doc="", pos=0) 
+                  
     # Загружаем пользователей и рекомендации которые хотим им предоставить             
     def load_params(self, filename='params.json'):
         try:
@@ -46,10 +46,10 @@ class TestGetRecommendations(unittest.TestCase):
                 return json.load(file)
         except FileNotFoundError:
             logging.error(f"File not found: {filename}")
-            self.fail(f"File not found: {filename}")
+            raise FileNotFoundError(f"File not found: {filename}")
         except json.JSONDecodeError:
             logging.error(f"Error decoding JSON from the file: {filename}")
-            self.fail(f"Error decoding JSON from the file: {filename}")
+            raise json.JSONDecodeError(f"Error decoding JSON from the file: {filename}", doc="", pos=0)
 
     def send_event(self):
         """

@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from collections import deque
 
 class EventStore:
     def __init__(self, max_events_per_user=10):
@@ -6,17 +7,15 @@ class EventStore:
         self.max_events_per_user = max_events_per_user
 
     def put(self, user_id, track_id):
-        if user_id in self.events:
-            user_events = self.events[user_id]
-        else:
-            user_events = []
+        if user_id not in self.events:
+            self.events[user_id] = deque(maxlen=self.max_events_per_user)  # Задаем maxlen
 
-        self.events[user_id] = [track_id] + user_events[:self.max_events_per_user]
+        self.events[user_id].appendleft(track_id)  # Добавляем трек в начало
 
     def get(self, user_id, k):
         if user_id in self.events:
             user_events = self.events[user_id]
-            return user_events[:k]
+            return list(user_events)[:k]  # Преобразуем deque в список
         else:
             return []
 
